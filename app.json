@@ -24,6 +24,12 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-asset",
+      {
+        "assets": ["./assets/healthierSmartphone1.svg"]
+      }
+    ]
   }
 }
