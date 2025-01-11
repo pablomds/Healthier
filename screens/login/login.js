@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { useGoogleAuth } from "../../Db/authGoogle"; // Importez votre hook d'auth Google
 
 const Login = () => {
 
