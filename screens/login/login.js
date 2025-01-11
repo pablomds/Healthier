@@ -1,25 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
+import LeftArrowIconSVG from "../../assets/Iconly/Regular/Outline/Arrow - Left.svg"
 
 const Login = () => {
 
-    return (
-    <View className="flex-1 justify-center items-center relative bg-secondary">
-      <View className="w-full justify-center items-center">
-        <Image
-          source={require('../../assets/Logo.png')}
-          className="w-20 h-20"
-        />
-      </View>
-      <View>
-        <Text className="text-white text-4xl">
-          C'est parti ! 
-        </Text>
-      </View>
-      <View>
-        <Text className="text-gray-500 text-2xl">
-          Plongeons dans votre compte 
-        </Text>
+  return (
+    <View className="flex-1 w-full px-6 py-16 justify-between items-center relative bg-secondary">
+      <View className="w-full justify-start items-start">
+        <LeftArrowIconSVG className="bg-white" height={50} width={50}/>
       </View>
     </View>
   )

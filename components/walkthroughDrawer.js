@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, PanResponder } from 'react-native';
 
-export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStepn, navigation }) {
+export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep, navigation }) {
 
 	const [drawerTitle, setDrawerTitle] = useState("");
 	const [drawerText, setDrawerText] = useState("");
@@ -43,7 +43,7 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStepn
 	}
 
 	const handleNavigate = () => {
-		navigation.navigate('Login');
+		navigation.navigate("Access");
 	}
 
 	const panResponder = PanResponder.create({
