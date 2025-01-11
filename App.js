@@ -1,12 +1,19 @@
-import { Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Walkthrough  from './screens/walkthrough/walkthrough.js';
+import Login from './screens/login/login.js'
 import "./global.css"
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View className="flex-1 justify-center items-center bg-blue-500">
-      <Text className="text-white text-lg font-bold">
-        Hello, Tailwind with React Native!
-      </Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Walkthrough" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Walkthrough" component={Walkthrough} />
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
