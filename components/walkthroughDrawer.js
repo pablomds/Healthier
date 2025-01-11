@@ -43,7 +43,7 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 	}
 
 	const handleNavigate = () => {
-		navigation.navigate('Login');
+		navigation.navigate("Access");
 	}
 
 	const panResponder = PanResponder.create({
