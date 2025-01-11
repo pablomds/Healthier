@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, Image } from 'react-native';
 import WalkthroughDrawer from '../../components/walkthroughDrawer';
 
-const Walkthrough = () => {
+const Walkthrough = ({navigation}) => {
 
   const [walkthroughStep, setWalkthroughStep] = useState(0);
 
@@ -40,7 +40,7 @@ const Walkthrough = () => {
         {renderImg()}
       </View>
       <View className="flex absolute bottom-0 w-full h-1/3 justify-center items-center">
-        <WalkthroughDrawer walkthroughStep={walkthroughStep} setWalkthroughStep={setWalkthroughStep} />
+        <WalkthroughDrawer walkthroughStep={walkthroughStep} setWalkthroughStep={setWalkthroughStep} navigation={navigation}/>
       </View>
     </View>
   )
