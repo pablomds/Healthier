@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, PanResponder } from 'react-native';
-import CurvedBackground from './curvedBackground';
 
 export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep, navigation }) {
 
