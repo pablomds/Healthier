@@ -50,4 +50,4 @@ const SignupQuizz = () => {
   )
 }
 
-export default SignupQuizz 
+export default SignupQuizz;
