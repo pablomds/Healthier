@@ -10,7 +10,8 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ShowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ShowWhite.svg";
 import LoaderIconSVG from '../../components/global/loader/loader.js';
-import { firebase } from '../../database/firebaseConfig.js';
+import { auth } from '../../firebase/firebaseConfig.js';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -30,7 +31,7 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      await firebase.auth.createUserWithEmailAndPassword(data.email, data.password);
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
       setShowModal(true);
       console.log("check your emails")
     } catch (error) {
