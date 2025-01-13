@@ -5,6 +5,10 @@ const Access = ({navigation}) => {
 		navigation.navigate("Login");
 	}
 
+  const handleNavigateSignup = () => {
+		navigation.navigate("Signup");
+	}
+
   return (
     <View className="flex-1 w-full px-6 py-16 justify-between items-center relative bg-secondary">
       <View className="w-full justify-center items-center">
@@ -53,7 +57,7 @@ const Access = ({navigation}) => {
       </View>
       <View className="gap-y-6">
         <View className="w-full flex flex-row gap-4 items-center justify-center">
-          <TouchableOpacity className="bg-primary w-full h-16 flex justify-center items-center rounded-full">
+          <TouchableOpacity onPress={handleNavigateSignup} className="bg-primary w-full h-16 flex justify-center items-center rounded-full">
             <Text className="text-white font-medium text-lg text-center">
               Sign up
             </Text>
