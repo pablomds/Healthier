@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Text, View, Image, Animated, Pressable, Dimensions, PanResponder } from "react-native";
 
-export const SignupQuizzGender = () => {
-    const [selectedGender, setSelectedGender] = useState("");
+export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
 
     // Animation values
     const scaleMan = useRef(new Animated.Value(1)).current;
@@ -10,7 +9,7 @@ export const SignupQuizzGender = () => {
     const opacityMan = useRef(new Animated.Value(1)).current;
     const opacityWoman = useRef(new Animated.Value(1)).current;
     const translateX = useRef(new Animated.Value(0)).current;
-    const screenWidth = Dimensions.get("window").width; // Get screen width
+    const screenWidth = Dimensions.get("window").width; // Get screen width 
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -28,8 +27,6 @@ export const SignupQuizzGender = () => {
 
     const handlePressMan = () => {
         setSelectedGender("man");
-
-        // Trigger animation for "man"
         Animated.parallel([
             Animated.timing(translateX, {
                 toValue: screenWidth * 0.25, // Move to center "man"
@@ -61,8 +58,6 @@ export const SignupQuizzGender = () => {
 
     const handlePressWoman = () => {
         setSelectedGender("woman");
-
-        // Trigger animation for "woman"
         Animated.parallel([
             Animated.timing(translateX, {
                 toValue: -screenWidth * 0.25, // Move to center "woman"
@@ -97,7 +92,7 @@ export const SignupQuizzGender = () => {
             {/* Title */}
             <View className="flex justify-center items-center">
                 <Text className="text-4xl text-white text-center">
-                    Select your <Text className="text-primary">Gender</Text>
+                    Select Your <Text className="text-primary">Gender</Text>
                 </Text>
                 <Text className="text-lg text-white text-center">
                     Let's start by understanding you.
