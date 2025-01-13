@@ -10,14 +10,14 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#7e6cfd",
-          light: "#7b6bf8",
-          dark: "#191a1f",
+          DEFAULT: "rgb(126, 109, 252)", // Equivalent à #7e6cfd
+          light: "rgb(123, 107, 248)",  // Equivalent à #7b6bf8
+          dark: "rgb(25, 26, 31)",     // Equivalent à #191a1f
         },
         secondary: {
-          DEFAULT: "#181A20",
-          medium: "#35383f",
-          dark: "#1F222A"
+          DEFAULT: "rgb(8, 8, 10)",  // Equivalent à #181A20
+          medium: "rgb(53, 56, 63)",   // Equivalent à #35383f
+          dark: "rgb(31, 34, 42)",     // Equivalent à #1F222A
         },
       },
       fontFamily: {

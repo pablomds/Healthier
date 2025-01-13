@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, PanResponder } from 'react-native';
+import CurvedBackground from './curvedBackground';
 
 export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep, navigation }) {
 
@@ -35,7 +36,7 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 	const handlePressSkip = () => {
 		setWalkthroughStep(2);
 	}
-	
+
 	const handlePressPrev = () => {
 		if (walkthroughStep > 0) {
 			setWalkthroughStep(walkthroughStep - 1);
@@ -50,15 +51,15 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 		onStartShouldSetPanResponder: () => true,
 		onMoveShouldSetPanResponder: () => true,
 		onPanResponderRelease: (_, gestureState) => {
-		  if (gestureState.dx > 50) {
-			// Swipe right
-			handlePressPrev();
-		  } else if (gestureState.dx < -50) {
-			// Swipe left
-			handlePressNext();
-		  }
+			if (gestureState.dx > 50) {
+				// Swipe right
+				handlePressPrev();
+			} else if (gestureState.dx < -50) {
+				// Swipe left
+				handlePressNext();
+			}
 		},
-	  });
+	});
 
 	return (
 		<View className="absolute bottom-0 w-full h-96 bg-secondary rounded-t-[10px]" {...panResponder.panHandlers}>
@@ -89,30 +90,30 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 					</View>
 				</View>
 				<View className="w-full h-1/3 flex justify-center items-center border-t-2 border-secondary-medium">
-				{walkthroughStep <= 1 ?
-					<View className="w-full flex flex-row h-32 gap-4 items-center justify-center">
-						<TouchableOpacity
-							className="bg-secondary-medium w-48 h-1/2 flex justify-center items-center rounded-full"
-							onPress={handlePressSkip}
-						>
-							<Text className="text-white font-medium text-lg text-center">Passer</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							className="bg-primary w-48 h-1/2 flex justify-center items-center rounded-full"
-							onPress={handlePressNext}
-						>
-							<Text className="text-white font-medium text-lg text-center">Suivant</Text>
-						</TouchableOpacity>
-					</View>
-					: 
-					<View className="w-full flex flex-row h-32 px-6 gap-4 items-center justify-center">
-						<TouchableOpacity
-							className="bg-primary w-full h-1/2 flex justify-center items-center rounded-full"
-							onPress={handleNavigate}
-						>
-							<Text className="text-white font-medium text-lg text-center">C'est parti !</Text>
-						</TouchableOpacity>
-					</View>	
+					{walkthroughStep <= 1 ?
+						<View className="w-full flex flex-row h-32 gap-4 items-center justify-center">
+							<TouchableOpacity
+								className="bg-secondary-medium w-48 h-1/2 flex justify-center items-center rounded-full"
+								onPress={handlePressSkip}
+							>
+								<Text className="text-white font-medium text-lg text-center">Passer</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								className="bg-primary w-48 h-1/2 flex justify-center items-center rounded-full"
+								onPress={handlePressNext}
+							>
+								<Text className="text-white font-medium text-lg text-center">Suivant</Text>
+							</TouchableOpacity>
+						</View>
+						:
+						<View className="w-full flex flex-row h-32 px-6 gap-4 items-center justify-center">
+							<TouchableOpacity
+								className="bg-primary w-full h-1/2 flex justify-center items-center rounded-full"
+								onPress={handleNavigate}
+							>
+								<Text className="text-white font-medium text-lg text-center">C'est parti !</Text>
+							</TouchableOpacity>
+						</View>
 					}
 				</View>
 			</View>
