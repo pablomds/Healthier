@@ -8,7 +8,6 @@ import Access from './screens/access/access.js';
 import Signup from "./screens/signup/signup.js";
 import "./global.css";
 import SignupQuizz from './screens/signupQuizz/signupQuizz.js';
-import SignupQuizzGender from './components/signupQuizz/signupQuizzGender.js'
 
 const Stack = createStackNavigator();
 
@@ -40,7 +39,6 @@ export default function App() {
         <Stack.Screen name="Access" component={Access} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="SignupQuizz" component={SignupQuizz} />
       </Stack.Navigator>
     </NavigationContainer>
   );
