@@ -78,8 +78,8 @@ const Signup = () => {
       </View>
       <View className="flex flex-col px-6 py-2 gap-y-8">
         <View className="flex flex-col gap-y-2">
-          <Text className="text-white text-[32px]">
-            Join Healthier Today 👤
+          <Text className="text-white text-[32px] font-Urbanist-Black">
+            Join Asana Today 👤
           </Text>
           <Text className="text-white text-[18px]">
             Start your personalized wellness experience.
