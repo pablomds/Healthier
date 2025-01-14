@@ -88,7 +88,7 @@ export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
     };
 
     return (
-        <View className="w-full h-4/6 flex justify-center items-center">
+        <View className="flex-1 w-full h-full flex justify-center items-center">
             {/* Title */}
             <View className="flex justify-center items-center">
                 <Text className="text-4xl text-white text-center">
