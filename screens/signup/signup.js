@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Text, View, Image, TextInput, TouchableOpacity, ScrollView, Modal, Pressable } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Text, View, Image, TextInput, TouchableOpacity, ScrollView, Modal, Pressable, StyleSheet  } from 'react-native';
 import LeftArrowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ArrowLeftWhite.svg";
 import MessageIconSVG from "../../assets/Iconly/Regular/Outline/MessageWhite.svg";
 import LockWhiteIconSVG from "../../assets/Iconly/Regular/Outline/LockWhite.svg";
@@ -11,7 +11,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import ShowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ShowWhite.svg";
 import LoaderIconSVG from '../../components/global/loader/loader.js';
 import { auth } from '../../firebase/firebaseConfig.js';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getDataFromCollection } from '../../firebase/functions.js';
+import { createUser, getUser, getUsers } from '../../controllers/usersControllers.js';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -19,6 +20,9 @@ const Signup = () => {
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    isAgreed: Yup.boolean()
+    .oneOf([true], 'You must accept the terms and conditions')
+    .required('This field is required'),
   });
 
   const {
@@ -31,11 +35,15 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
       setShowModal(true);
-      console.log("check your emails")
+      const userCredential = await createUserWithEmailAndPassword(data.email, data.password);
+      const userData = {
+        uid: userCredential.user.uid,
+        email: data.email
+      }
+      await createUser(userData);
     } catch (error) {
-      console.log("Error :", error.message);
+      console.log("Error while submit :", error.message);
     } finally {
       setShowModal(true);
     }
@@ -57,9 +65,7 @@ const Signup = () => {
           }}
           className="flex-1 justify-center items-center"
         >
-          <View
-            className="flex flex-col items-center justify-center h-[200px] w-[340px] bg-secondary py-8 px-8 gap-y-6"
-          >
+          <View className="flex flex-col items-center justify-center h-[200px] w-[340px] bg-secondary py-8 px-8 gap-y-6 rounded-[12px]">
             <LoaderIconSVG className="animate-spin h-full w-full" />
             <Pressable onPress={() => setShowModal(false)}>
               <Text className="text-white text-xl">Sign up...</Text>
@@ -72,14 +78,16 @@ const Signup = () => {
       </View>
       <View className="flex flex-col px-6 py-2 gap-y-8">
         <View className="flex flex-col gap-y-2">
-          <Text className="text-white text-[32px]">Join Asana Today 👤</Text>
+          <Text className="text-white text-[32px]">
+            Join Healthier Today 👤
+          </Text>
           <Text className="text-white text-[18px]">
             Start your personalized wellness experience.
           </Text>
         </View>
         <View className="gap-y-4">
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px]">Email</Text>
+            <Text className="text-white text-[18px]">Email {errors.email && <Text className="text-red-500 text-[18px]">*</Text>}</Text>
             <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[18px] px-[20px] gap-x-[12px]">
               <MessageIconSVG height="20" width="20" />
               <Controller
@@ -100,7 +108,7 @@ const Signup = () => {
             </View>
           </View>
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px]">Password</Text>
+            <Text className="text-white text-[18px]">Password {errors.password && <Text className="text-red-500 text-[18px]">*</Text>}</Text>
             <View className="flex flex-row justify-between bg-secondary-dark h-[65px] rounded-[10px] items-center py-[18px] px-[20px]">
               <View className="flex flex-row gap-x-[12px]">
                 <LockWhiteIconSVG height="20" width="20" />
@@ -135,12 +143,28 @@ const Signup = () => {
           </View>
           <View className="flex flex-col gap-y-8">
             <View className="flex flex-row justify-start gap-x-4">
-              <CheckBox iconColor="#7E6DFC" iconSize={24} title="" />
+              <Controller
+                name="isAgreed"
+                control={control}
+                defaultValue={false}
+                render={({ field: { value, onChange } }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.checkbox,
+                      value && styles.checked, // Apply the checked style if the value is true
+                    ]}
+                    onPress={() => onChange(!value)} // Toggle the value
+                  >
+                    {value && <Text style={styles.checkmark}>✓</Text>}
+                  </TouchableOpacity>
+                )}
+              />
               <Text className="text-white text-[18px]">
-                I agree to Asana{" "}
+                I agree to Healthier{" "}
                 <Text className="text-primary text-[18px]">
-                  Terms & Conditions.
+                  Terms & Conditions
                 </Text>
+                . {errors.isAgreed && <Text className="text-red-500 text-[18px]">*</Text>}
               </Text>
             </View>
             <View className="flex flex-row justify-center gap-x-2">
@@ -206,6 +230,27 @@ const Signup = () => {
       </View>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 3,
+    borderColor: '#7E6DFC',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checked: {
+    backgroundColor: '#7E6DFC',
+    borderColor: '#7E6DFC',
+  },
+  checkmark: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
 
 export default Signup 

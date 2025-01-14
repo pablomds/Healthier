@@ -1,21 +1,24 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore, initializeFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_MESSAGING_SENDER_ID, FIREBASE_APP_ID, FIREBASE_MEASUREMENT_ID } from '@env';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD3CaUAluFfQ0aXw6rleVs3F3U4IBZUspA",
-  authDomain: "healthier-84ebf.firebaseapp.com",
-  databaseURL: "https://healthier-84ebf-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "healthier-84ebf",
-  storageBucket: "healthier-84ebf.firebasestorage.app",
-  messagingSenderId: "70429617594",
-  appId: "1:70429617594:web:6aee01788ec9cf0d7c0183",
-  measurementId: "G-CVZBRVVLLW"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  databaseURL: FIREBASE_DATABASE_URL,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
+  measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
-let app;
+const app = initializeApp(firebaseConfig);
 
-if (!app) {
-    app = initializeApp(firebaseConfig);
-}
+export const storage = getStorage(app);
+
+export const db = initializeFirestore(app, {   experimentalForceLongPolling: true,   useFetchStreams: false, });
 
 export const auth = getAuth(app);
