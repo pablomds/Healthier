@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, Image, TouchableOpacity, Animated  } from 'react-native';
 import Arrow from '../../assets/Arrow.svg';
 import { SignupQuizzGender } from '../../components/signupQuizz/signupQuizzGender';
 import { SignupQuizzFocus } from '../../components/signupQuizz/signupQuizzFocus';
@@ -13,6 +13,16 @@ const SignupQuizz = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedAreas, setSelectedAreas] = useState([]);
   const [selectedGoals, setSelectedGoals] = useState([]);
+
+  const progressAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    // Lorsque currentStep change, on anime la barre de progression
+    Animated.timing(progressAnim, {
+      toValue: progress, // On cible la nouvelle valeur de la progression
+      duration: 500,      // Durée de l'animation (500 ms)
+      useNativeDriver: false, // On ne peut pas utiliser native driver ici car on anime une valeur de style
+    }).start();
+  }, [currentStep]); 
 
   const handleNextStep = () => {
     switch (currentStep) {
@@ -65,9 +75,15 @@ const SignupQuizz = () => {
         </View>
 
         <View className="w-2/3 h-4 flex justify-center items-center">
-          <View className="w-full h-full bg-secondary-medium rounded-full overflow-hidden">
-            <View
-              style={{ width: `${progress}%` }}
+        <View className="w-full h-full bg-secondary-medium rounded-full overflow-hidden">
+            {/* Utilisation de Animated pour la barre de progression */}
+            <Animated.View
+              style={{
+                width: progressAnim.interpolate({
+                  inputRange: [0, 100],
+                  outputRange: ['0%', '100%'], // Change la largeur de 0% à 100%
+                }),
+              }}
               className="h-full rounded-full bg-primary"
             />
           </View>
