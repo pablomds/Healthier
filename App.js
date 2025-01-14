@@ -39,6 +39,7 @@ export default function App() {
         <Stack.Screen name="Access" component={Access} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="SignupQuizz" component={SignupQuizz} />
       </Stack.Navigator>
     </NavigationContainer>
   );
