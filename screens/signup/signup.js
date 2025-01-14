@@ -14,7 +14,7 @@ import { auth } from '../../firebase/firebaseConfig.js';
 import { createUserWithEmailAndPassword, getDataFromCollection } from '../../firebase/functions.js';
 import { createUser, getUser, getUsers } from '../../controllers/usersControllers.js';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const schema = Yup.object().shape({
@@ -42,6 +42,7 @@ const Signup = () => {
         email: data.email
       }
       await createUser(userData);
+      navigation.navigate("SignupQuizz");
     } catch (error) {
       console.log("Error while submit :", error.message);
     } finally {
@@ -88,7 +89,7 @@ const Signup = () => {
         <View className="gap-y-4">
           <View className="flex flex-col gap-y-2">
             <Text className="text-white text-[18px]">Email {errors.email && <Text className="text-red-500 text-[18px]">*</Text>}</Text>
-            <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[18px] px-[20px] gap-x-[12px]">
+            <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[12px] px-[20px] gap-x-[12px]">
               <MessageIconSVG height="20" width="20" />
               <Controller
                 name="email"
@@ -109,8 +110,8 @@ const Signup = () => {
           </View>
           <View className="flex flex-col gap-y-2">
             <Text className="text-white text-[18px]">Password {errors.password && <Text className="text-red-500 text-[18px]">*</Text>}</Text>
-            <View className="flex flex-row justify-between bg-secondary-dark h-[65px] rounded-[10px] items-center py-[18px] px-[20px]">
-              <View className="flex flex-row gap-x-[12px]">
+            <View className="flex flex-row justify-between bg-secondary-dark h-[65px] rounded-[10px] items-center  py-[12px] px-[20px]">
+              <View className="flex flex-row gap-x-[12px] justify-center items-center">
                 <LockWhiteIconSVG height="20" width="20" />
                 <Controller
                   name="password"
@@ -218,7 +219,7 @@ const Signup = () => {
           </ScrollView>
         </View>
       </View>
-      <View className="w-full flex items-center justify-center pt-6 px-6 pb-9 h-[7.5rem] border-t-[1px] border-secondary-medium absolute bottom-20 bg-secondary">
+      <View className="w-full flex items-center justify-center pt-6 px-6 pb-9 h-[7.5rem] border-t-[1px] border-secondary-medium absolute bottom-0 bg-secondary">
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
           className="bg-primary w-full h-16 flex justify-center items-center rounded-full"
