@@ -5,24 +5,32 @@ export const SignupQuizzFocus = ({ gender, selectedAreas, setSelectedAreas }) =>
 
     const handleSelectArea = (id) => {
         setSelectedAreas((prevSelectedAreas) => {
-            if (prevSelectedAreas.includes(id)) {
-                // Retirer l'élément s'il est déjà sélectionné
-                return prevSelectedAreas.filter((areaId) => areaId !== id);
+            if (id === 0) {
+                // Si "Full Body" est sélectionné, désélectionner tous les autres
+                return prevSelectedAreas.includes(0) ? [] : [0];
             } else {
-                // Ajouter l'élément s'il n'est pas encore sélectionné
-                return [...prevSelectedAreas, id];
+                // Si un autre est sélectionné, désactiver "Full Body" si présent
+                if (prevSelectedAreas.includes(0)) {
+                    return [id];
+                }
+                // Ajouter ou retirer l'élément classique
+                if (prevSelectedAreas.includes(id)) {
+                    return prevSelectedAreas.filter((areaId) => areaId !== id);
+                } else {
+                    return [...prevSelectedAreas, id];
+                }
             }
         });
     };
 
     const bodyParts = [
         { id: 0, name: "Full body" },
-        { id: 1, name: "Epaules" },
-        { id: 2, name: "Pectoraux" },
-        { id: 3, name: "Bras" },
-        { id: 4, name: "Dos" },
-        { id: 5, name: "Abdos" },
-        { id: 6, name: "Jambes" }
+        { id: 1, name: "Shoulders" },
+        { id: 2, name: "Chest" },
+        { id: 3, name: "Arms" },
+        { id: 4, name: "Back" },
+        { id: 5, name: "Core" },
+        { id: 6, name: "Legs" }
     ];
 
     const renderMusclesCards = (bodyPart) => {
@@ -45,7 +53,7 @@ export const SignupQuizzFocus = ({ gender, selectedAreas, setSelectedAreas }) =>
             {/* Title */}
             <View className="flex justify-center items-center">
                 <Text className="text-4xl text-white text-center">
-                    What's Your <Text className="text-primary">Focus Area</Text>
+                    What's Your <Text className="text-primary">Focus Area</Text><Text>?</Text>
                 </Text>
                 <Text className="text-lg text-white text-center">
                     Where would you like to channel your energy?

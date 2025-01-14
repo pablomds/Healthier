@@ -92,7 +92,7 @@ export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
             {/* Title */}
             <View className="flex justify-center items-center">
                 <Text className="text-4xl text-white text-center">
-                    Select Your <Text className="text-primary">Gender</Text>
+                    Select Your <Text className="text-primary">Gender</Text><Text>?</Text>
                 </Text>
                 <Text className="text-lg text-white text-center">
                     Let's start by understanding you.
@@ -132,7 +132,7 @@ export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
                                     />
                                 </View>
                                 <View className="w-full h-1/6 mb-4 flex items-center justify-center">
-                                    <Text className="text-xl text-white text-center">Homme</Text>
+                                    <Text className="text-xl text-white text-center">Man</Text>
                                 </View>
                             </View>
 
@@ -170,7 +170,7 @@ export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
                                     />
                                 </View>
                                 <View className="w-full h-1/6 mb-4 flex items-center justify-center">
-                                    <Text className="text-xl text-white text-center">Femme</Text>
+                                    <Text className="text-xl text-white text-center">Woman</Text>
                                 </View>
                             </View>
                         </Animated.View>
