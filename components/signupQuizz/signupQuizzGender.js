@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Text, View, Image, Animated, Pressable, Dimensions, PanResponder } from "react-native";
 
-export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
+export const SignupQuizzGender = ({ selectedGender, setSelectedGender }) => {
 
     // Animation values
     const scaleMan = useRef(new Animated.Value(1)).current;
@@ -25,66 +25,73 @@ export const SignupQuizzGender = ({selectedGender, setSelectedGender}) => {
         },
     });
 
+    useEffect(() => {
+        if (selectedGender === "man") {
+            Animated.parallel([
+                Animated.timing(translateX, {
+                    toValue: screenWidth * 0.25, // Move to center "man"
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleMan, {
+                    toValue: 1.2,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(opacityMan, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleWoman, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(opacityWoman, {
+                    toValue: 0.6,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+            ]).start();
+        }
+        if (selectedGender === "woman") {
+            Animated.parallel([
+                Animated.timing(translateX, {
+                    toValue: -screenWidth * 0.25, // Move to center "woman"
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleWoman, {
+                    toValue: 1.2,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(opacityWoman, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(scaleMan, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(opacityMan, {
+                    toValue: 0.6,
+                    duration: 300,
+                    useNativeDriver: true,
+                }),
+            ]).start();
+        }
+    }, [selectedGender])
+
     const handlePressMan = () => {
         setSelectedGender("man");
-        Animated.parallel([
-            Animated.timing(translateX, {
-                toValue: screenWidth * 0.25, // Move to center "man"
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleMan, {
-                toValue: 1.2,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(opacityMan, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleWoman, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(opacityWoman, {
-                toValue: 0.6,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-        ]).start();
     };
 
     const handlePressWoman = () => {
         setSelectedGender("woman");
-        Animated.parallel([
-            Animated.timing(translateX, {
-                toValue: -screenWidth * 0.25, // Move to center "woman"
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleWoman, {
-                toValue: 1.2,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(opacityWoman, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleMan, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-            Animated.timing(opacityMan, {
-                toValue: 0.6,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-        ]).start();
     };
 
     return (
