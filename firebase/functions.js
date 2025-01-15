@@ -3,6 +3,28 @@ import { utils } from "../utils/utils.js";
 import { db } from "./firebaseConfig.js";
 import { collection, query, where, doc, getDoc, getDocs, updateDoc , addDoc, deleteDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword as createUserWithEmailAndPasswordFirebase, signInWithEmailAndPassword as  signInWithEmailAndPasswordFirebase} from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+const provider = new GoogleAuthProvider();
+
+export const signInWithPopupGoogle = async () => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        if (result) {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            return user
+        }
+
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log("error on sign in with google account", error.message);
+    }
+}
 
 export const createUserWithEmailAndPassword = async (email, password) => {
     return await createUserWithEmailAndPasswordFirebase(auth, email, password);

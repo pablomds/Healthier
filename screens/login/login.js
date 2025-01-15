@@ -4,20 +4,22 @@ import LeftArrowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ArrowLeft
 import MessageIconSVG from "../../assets/Iconly/Regular/Outline/MessageWhite.svg";
 import LockWhiteIconSVG from "../../assets/Iconly/Regular/Outline/LockWhite.svg";
 import HideWhiteIconSVG from "../../assets/Iconly/Regular/Outline/HideWhite.svg";
-import { CheckBox } from 'rn-inkpad';
 import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ShowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ShowWhite.svg";
 import LoaderIconSVG from "../../components/global/loader/loader.js";
 import { signInWithEmailAndPassword } from '../../firebase/functions.js';
+import { SignInWithService } from '../../components/global/SignIn/SignInWithService.js';
+import { CheckBox } from '../../components/global/checkbox/CheckBox.js';
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    hasToRemember: Yup.boolean(),
   });
 
   const {
@@ -29,13 +31,18 @@ const Login = () => {
   });
 
   const onSubmit = async (data) => {
+    console.log("data :",data)
     try {
       setShowModal(true);
-      const userCredential = await signInWithEmailAndPassword(data.email, data.password);
+      // const userCredential = await signInWithEmailAndPassword(data.email, data.password);
     } catch (error) {
       console.log("Error :", error);
     }
   };
+
+  const handleNavigateToAccess = () => {
+    navigation.navigate("Access");
+  }
 
   return (
     <View className="flex-1 w-full py-16 bg-secondary relative">
@@ -62,18 +69,24 @@ const Login = () => {
         </View>
       </Modal>
       <View className="flex flex-row justify-between px-6 py-3 h-[72px]">
-        <LeftArrowWhiteIconSVG height={40} width={40} />
+        <TouchableOpacity onPress={handleNavigateToAccess}>
+          <LeftArrowWhiteIconSVG height={40} width={40} />
+        </TouchableOpacity>
       </View>
       <View className="flex flex-col px-6 py-2 gap-y-8">
         <View className="flex flex-col gap-y-2">
-          <Text className="text-white text-[32px]">Welcome Back! 👋</Text>
-          <Text className="text-white text-[18px]">
+          <Text className="text-white text-[32px] font-Urbanist-Bold">
+            Welcome Back! 👋
+          </Text>
+          <Text className="text-white text-[18px] font-Urbanist-Regular">
             Sign in to continue your wellness journey.
           </Text>
         </View>
         <View className="gap-y-4">
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px]">Email</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">
+              Email {errors.email && <Text className="text-errors text-[18px] font-Urbanist-SemiBold">*</Text>}
+            </Text>
             <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[18px] px-[20px] gap-x-[12px]">
               <MessageIconSVG height="20" width="20" />
               <Controller
@@ -87,14 +100,16 @@ const Login = () => {
                     value={value}
                     placeholder="Email"
                     placeholderTextColor="#9E9E9E"
-                    className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle"
+                    className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle font-Urbanist-SemiBold"
                   />
                 )}
               />
             </View>
           </View>
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px]">Password</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">
+              Password {errors.password && <Text className="text-errors text-[18px] font-Urbanist-SemiBold">*</Text>}
+            </Text>
             <View className="flex flex-row justify-between bg-secondary-dark h-[65px] rounded-[10px] items-center py-[18px] px-[20px]">
               <View className="flex flex-row gap-x-[12px]">
                 <LockWhiteIconSVG height="20" width="20" />
@@ -110,7 +125,7 @@ const Login = () => {
                       secureTextEntry={showPassword}
                       placeholder="Password"
                       placeholderTextColor="#9E9E9E"
-                      className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle max-w-64"
+                      className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle max-w-64 font-Urbanist-SemiBold"
                     />
                   )}
                 />
@@ -129,16 +144,29 @@ const Login = () => {
           </View>
           <View className="flex flex-row justify-between">
             <View className="flex flex-row gap-x-4">
-              <CheckBox iconColor="#7E6DFC" iconSize={24} title="" />
-              <Text className="text-white text-[18px]">Remember me</Text>
+              <Controller
+                name="hasToRemember"
+                control={control}
+                defaultValue={false}
+                render={({ field: { value, onChange } }) => (
+                  <CheckBox onPress={() => onChange(!value)} value={value} />
+                )}
+              />
+              <Text className="text-white text-[18px] font-Urbanist-Medium">
+                Remember me
+              </Text>
             </View>
-            <Text className="text-white text-[18px]">Forgot Password ?</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">
+              Forgot Password ?
+            </Text>
           </View>
         </View>
         <View className="gap-y-5">
           <View className="flex flex-row justify-between items-center">
             <View className="h-1 w-44 bg-[#35383F]"></View>
-            <Text className="text-[#EEEEEE] text-[18px]">or</Text>
+            <Text className="text-[#EEEEEE] text-[18px] font-Urbanist-Medium">
+              or
+            </Text>
             <View className="h-1 w-44 bg-[#35383F]"></View>
           </View>
           <ScrollView
@@ -146,34 +174,22 @@ const Login = () => {
             showsVerticalScrollIndicator={false}
           >
             <View className="flex">
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoGoogle.png")} />
-                <Text className="text-xl text-white ml-12">
-                  {" "}
-                  Continue with Google{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoApple.png")} />
-                <Text className="text-xl text-white ml-12">
-                  {" "}
-                  Continue with Apple{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoFacebook.png")} />
-                <Text className="text-xl text-white ml-12">
-                  {" "}
-                  Continue with Facebook{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoTwitter.png")} />
-                <Text className="text-xl text-white ml-12">
-                  {" "}
-                  Continue with X{" "}
-                </Text>
-              </TouchableOpacity>
+              <SignInWithService
+                service="Google"
+                onPress={() => console.log("Google Login")}
+              />
+              <SignInWithService
+                service="Apple"
+                onPress={() => console.log("Apple Login")}
+              />
+              <SignInWithService
+                service="Facebook"
+                onPress={() => console.log("Facebook Login")}
+              />
+              <SignInWithService
+                service="X"
+                onPress={() => console.log("X Login")}
+              />
             </View>
           </ScrollView>
         </View>
@@ -183,7 +199,7 @@ const Login = () => {
           onPress={handleSubmit(onSubmit)}
           className="bg-primary w-full h-16 flex justify-center items-center rounded-full"
         >
-          <Text className="text-white font-medium text-lg text-center">
+          <Text className="text-white font-medium text-lg text-center font-Urbanist-Bold">
             Log in
           </Text>
         </TouchableOpacity>
