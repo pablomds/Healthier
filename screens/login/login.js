@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
     console.log("data :",data)
     try {
       setShowModal(true);
-      // const userCredential = await signInWithEmailAndPassword(data.email, data.password);
+      const userCredential = await signInWithEmailAndPassword(data.email, data.password);
     } catch (error) {
       console.log("Error :", error);
     }
