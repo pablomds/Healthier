@@ -12,7 +12,7 @@ import { SignupQuizzLifeStyle } from '../../components/signupQuizz/signupQuizzLi
 const SignupQuizz = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 10;
+  const totalSteps = 12;
   const progress = (currentStep / totalSteps) * 100;
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedAreas, setSelectedAreas] = useState([]);
