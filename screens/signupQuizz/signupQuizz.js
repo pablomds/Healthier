@@ -5,6 +5,7 @@ import { SignupQuizzGender } from '../../components/signupQuizz/signupQuizzGende
 import { SignupQuizzFocus } from '../../components/signupQuizz/signupQuizzFocus';
 import { SignupQuizzGoal } from '../../components/signupQuizz/signupQuizzGoal';
 import { SignupQuizzShape } from '../../components/signupQuizz/signupQuizzShape';
+import { SignupQuizzGoalShape } from '../../components/signupQuizz/signupQuizzGoalShape';
 
 const SignupQuizz = () => {
 
@@ -14,7 +15,8 @@ const SignupQuizz = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedAreas, setSelectedAreas] = useState([]);
   const [selectedGoals, setSelectedGoals] = useState([]);
-  const [selectedShape, setSelectedShape] = useState("");
+  const [selectedShape, setSelectedShape] = useState(2);
+  const [selectedGoalShape, setSelectedGoalShape] = useState(1);
 
   const progressAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -69,6 +71,10 @@ const SignupQuizz = () => {
       case 4:
         return (
           <SignupQuizzShape selectedShape={selectedShape} setSelectedShape={setSelectedShape} />
+        )
+      case 5:
+        return (
+          <SignupQuizzGoalShape selectedShape={selectedShape} selectedGoalShape={selectedGoalShape} setSelectedGoalShape={setSelectedGoalShape}/>
         )
     }
   }
