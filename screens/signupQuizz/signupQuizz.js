@@ -118,7 +118,7 @@ const SignupQuizz = () => {
         </View>
 
         <View className="h-full flex justify-center items-center">
-          <Text className="text-white text-xl font-Urbanist-Medium">{currentStep} / 14</Text>
+          <Text className="text-white text-xl font-Urbanist-Medium">{currentStep} / {totalSteps}</Text>
         </View>
       </View>
 
