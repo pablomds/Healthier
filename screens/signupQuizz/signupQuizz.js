@@ -6,6 +6,7 @@ import { SignupQuizzFocus } from '../../components/signupQuizz/signupQuizzFocus'
 import { SignupQuizzGoal } from '../../components/signupQuizz/signupQuizzGoal';
 import { SignupQuizzShape } from '../../components/signupQuizz/signupQuizzShape';
 import { SignupQuizzGoalShape } from '../../components/signupQuizz/signupQuizzGoalShape';
+import { SignupQuizzExperience } from '../../components/signupQuizz/signupQuizzExperience';
 
 const SignupQuizz = () => {
 
@@ -17,6 +18,7 @@ const SignupQuizz = () => {
   const [selectedGoals, setSelectedGoals] = useState([]);
   const [selectedShape, setSelectedShape] = useState(2);
   const [selectedGoalShape, setSelectedGoalShape] = useState(1);
+  const [selectedExp, setSelectedExp] = useState(0);
 
   const progressAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -76,6 +78,10 @@ const SignupQuizz = () => {
         return (
           <SignupQuizzGoalShape selectedShape={selectedShape} selectedGoalShape={selectedGoalShape} setSelectedGoalShape={setSelectedGoalShape}/>
         )
+      case 6:
+        return (
+          <SignupQuizzExperience selectedExp={selectedExp} setSelectedExp={setSelectedExp} />
+        )
     }
   }
 
@@ -106,7 +112,10 @@ const SignupQuizz = () => {
         </View>
       </View>
 
-      {handleRenderQuizzContent()}
+      <View className="w-full h-4/6">
+        {handleRenderQuizzContent()}
+      </View>
+
 
       <View className="w-full bg-secondary h-32 border-t-2 border-secondary-medium flex justify-center items-center">
         <View className="w-full flex flex-row h-32 gap-4 items-center justify-center">
