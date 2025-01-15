@@ -19,6 +19,9 @@ module.exports = {
           medium: "#35383f",
           dark: "#1F222A"
         },
+        errors: {
+          DEFAULT: "#F75555"
+        }
       },
       fontFamily: {
         "Urbanist-Black": ["Urbanist-Black"],
