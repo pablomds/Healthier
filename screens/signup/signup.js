@@ -82,13 +82,13 @@ const Signup = ({navigation}) => {
           <Text className="text-white text-[32px] font-Urbanist-Black">
             Join Asana Today 👤
           </Text>
-          <Text className="text-white text-[18px]">
+          <Text className="text-white text-[18px] font-Urbanist-Regular">
             Start your personalized wellness experience.
           </Text>
         </View>
         <View className="gap-y-4">
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px]">Email {errors.email && <Text className="text-red-500 text-[18px]">*</Text>}</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">Email {errors.email && <Text className="text-red-500 text-[18px] font-Urbanist-SemiBold">*</Text>}</Text>
             <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[12px] px-[20px] gap-x-[12px]">
               <MessageIconSVG height="20" width="20" />
               <Controller
@@ -102,14 +102,14 @@ const Signup = ({navigation}) => {
                     value={value}
                     placeholder="Email"
                     placeholderTextColor="#9E9E9E"
-                    className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle"
+                    className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle font-Urbanist-Regular"
                   />
                 )}
               />
             </View>
           </View>
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px]">Password {errors.password && <Text className="text-red-500 text-[18px]">*</Text>}</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">Password {errors.password && <Text className="text-red-500 text-[18px] font-Urbanist-SemiBold">*</Text>}</Text>
             <View className="flex flex-row justify-between bg-secondary-dark h-[65px] rounded-[10px] items-center  py-[12px] px-[20px]">
               <View className="flex flex-row gap-x-[12px] justify-center items-center">
                 <LockWhiteIconSVG height="20" width="20" />
@@ -125,7 +125,7 @@ const Signup = ({navigation}) => {
                       secureTextEntry={showPassword}
                       placeholder="Password"
                       placeholderTextColor="#9E9E9E"
-                      className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle max-w-64"
+                      className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle max-w-64 font-Urbanist-Regular"
                     />
                   )}
                 />
@@ -160,26 +160,26 @@ const Signup = ({navigation}) => {
                   </TouchableOpacity>
                 )}
               />
-              <Text className="text-white text-[18px]">
+              <Text className="text-white text-[18px] font-Urbanist-Medium">
                 I agree to Healthier{" "}
-                <Text className="text-primary text-[18px]">
+                <Text className="text-primary text-[18px] font-Urbanist-Medium">
                   Terms & Conditions
                 </Text>
-                . {errors.isAgreed && <Text className="text-red-500 text-[18px]">*</Text>}
+                . {errors.isAgreed && <Text className="text-red-500 text-[18px] font-Urbanist-Medium">*</Text>}
               </Text>
             </View>
             <View className="flex flex-row justify-center gap-x-2">
-              <Text className="text-white text-[18px]">
+              <Text className="text-white text-[18px] font-Urbanist-Regular">
                 Already have an account ?
               </Text>
-              <Text className="text-primary text-[18px]">Log in</Text>
+              <Text className="text-primary text-[18px] font-Urbanist-SemiBold">Log in</Text>
             </View>
           </View>
         </View>
         <View className="gap-y-5">
           <View className="flex flex-row justify-between items-center">
             <View className="h-1 w-44 bg-[#35383F]"></View>
-            <Text className="text-[#EEEEEE] text-[18px]">or</Text>
+            <Text className="text-[#EEEEEE] text-[18px] font-Urbanist-Medium">or</Text>
             <View className="h-1 w-44 bg-[#35383F]"></View>
           </View>
           <ScrollView
@@ -189,28 +189,28 @@ const Signup = ({navigation}) => {
             <View className="flex">
               <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium">
                 <Image source={require("../../assets/logoGoogle.png")} />
-                <Text className="text-xl text-white ml-12">
+                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
                   {" "}
                   Continue with Google{" "}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
                 <Image source={require("../../assets/logoApple.png")} />
-                <Text className="text-xl text-white ml-12">
+                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
                   {" "}
                   Continue with Apple{" "}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
                 <Image source={require("../../assets/logoFacebook.png")} />
-                <Text className="text-xl text-white ml-12">
+                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
                   {" "}
                   Continue with Facebook{" "}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
                 <Image source={require("../../assets/logoTwitter.png")} />
-                <Text className="text-xl text-white ml-12">
+                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
                   {" "}
                   Continue with X{" "}
                 </Text>
@@ -224,7 +224,7 @@ const Signup = ({navigation}) => {
           onPress={handleSubmit(onSubmit)}
           className="bg-primary w-full h-16 flex justify-center items-center rounded-full"
         >
-          <Text className="text-white font-medium text-lg text-center">
+          <Text className="text-white font-medium text-lg text-center font-Urbanist-Bold">
             Sign up
           </Text>
         </TouchableOpacity>
