@@ -98,10 +98,10 @@ export const SignupQuizzGender = ({ selectedGender, setSelectedGender }) => {
         <View className="flex-1 w-full h-full flex justify-center items-center">
             {/* Title */}
             <View className="flex justify-center items-center">
-                <Text className="text-4xl text-white text-center">
-                    Select Your <Text className="text-primary">Gender</Text><Text>?</Text>
+                <Text className="text-3xl h-12 text-white text-center font-Urbanist-Black">
+                    Select Your <Text className="text-primary font-Urbanist-Black">Gender</Text><Text>?</Text>
                 </Text>
-                <Text className="text-lg text-white text-center">
+                <Text className="text-md text-white text-center font-Urbanist-Medium">
                     Let's start by understanding you.
                 </Text>
             </View>
@@ -139,7 +139,7 @@ export const SignupQuizzGender = ({ selectedGender, setSelectedGender }) => {
                                     />
                                 </View>
                                 <View className="w-full h-1/6 mb-4 flex items-center justify-center">
-                                    <Text className="text-xl text-white text-center">Man</Text>
+                                    <Text className="text-xl text-white text-center font-Urbanist-Black">Man</Text>
                                 </View>
                             </View>
 
@@ -177,7 +177,7 @@ export const SignupQuizzGender = ({ selectedGender, setSelectedGender }) => {
                                     />
                                 </View>
                                 <View className="w-full h-1/6 mb-4 flex items-center justify-center">
-                                    <Text className="text-xl text-white text-center">Woman</Text>
+                                    <Text className="text-xl text-white text-center font-Urbanist-Black">Woman</Text>
                                 </View>
                             </View>
                         </Animated.View>

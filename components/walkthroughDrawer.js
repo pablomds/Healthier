@@ -116,13 +116,13 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 								className="bg-secondary-medium w-48 h-1/2 flex justify-center items-center rounded-full"
 								onPress={handlePressSkip}
 							>
-								<Text className="text-white font-medium text-lg text-center">Passer</Text>
+								<Text className="text-white font-medium text-lg text-center">Skip</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								className="bg-primary w-48 h-1/2 flex justify-center items-center rounded-full"
 								onPress={handlePressNext}
 							>
-								<Text className="text-white font-medium text-lg text-center">Suivant</Text>
+								<Text className="text-white font-medium text-lg text-center">Continue</Text>
 							</TouchableOpacity>
 						</View>
 					) : (
@@ -131,7 +131,7 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 								className="bg-primary w-full h-1/2 flex justify-center items-center rounded-full"
 								onPress={handleNavigate}
 							>
-								<Text className="text-white font-medium text-lg text-center">C'est parti !</Text>
+								<Text className="text-white font-medium text-lg text-center">Let's go !</Text>
 							</TouchableOpacity>
 						</View>
 					)}

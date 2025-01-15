@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, Image, TouchableOpacity, Animated  } from 'react-native';
+import { Text, View, Image, TouchableOpacity, Animated } from 'react-native';
 import Arrow from '../../assets/Arrow.svg';
 import { SignupQuizzGender } from '../../components/signupQuizz/signupQuizzGender';
 import { SignupQuizzFocus } from '../../components/signupQuizz/signupQuizzFocus';
 import { SignupQuizzGoal } from '../../components/signupQuizz/signupQuizzGoal';
+import { SignupQuizzShape } from '../../components/signupQuizz/signupQuizzShape';
 
 const SignupQuizz = () => {
 
@@ -13,6 +14,7 @@ const SignupQuizz = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedAreas, setSelectedAreas] = useState([]);
   const [selectedGoals, setSelectedGoals] = useState([]);
+  const [selectedShape, setSelectedShape] = useState("");
 
   const progressAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -22,7 +24,7 @@ const SignupQuizz = () => {
       duration: 500,      // Durée de l'animation (500 ms)
       useNativeDriver: false, // On ne peut pas utiliser native driver ici car on anime une valeur de style
     }).start();
-  }, [currentStep]); 
+  }, [currentStep]);
 
   const handleNextStep = () => {
     switch (currentStep) {
@@ -60,22 +62,26 @@ const SignupQuizz = () => {
         return (
           <SignupQuizzFocus gender={selectedGender} selectedAreas={selectedAreas} setSelectedAreas={setSelectedAreas} />
         )
-      case 3: 
+      case 3:
         return (
           <SignupQuizzGoal selectedGoals={selectedGoals} setSelectedGoals={setSelectedGoals} />
+        )
+      case 4:
+        return (
+          <SignupQuizzShape selectedShape={selectedShape} setSelectedShape={setSelectedShape} />
         )
     }
   }
 
   return (
     <View className="flex-1 w-full h-full justify-between items-center relative bg-secondary">
-      <View className="w-full px-6 h-1/6 flex-row justify-between items-center">
+      <View className="w-full px-6 h-1/6 mt-4 flex-row justify-between items-center">
         <View className="h-full flex justify-center items-center" >
           <Arrow className="h-8 w-8" onPress={handlePreviousStep} />
         </View>
 
         <View className="w-2/3 h-4 flex justify-center items-center">
-        <View className="w-full h-full bg-secondary-medium rounded-full overflow-hidden">
+          <View className="w-full h-full bg-secondary-medium rounded-full overflow-hidden">
             {/* Utilisation de Animated pour la barre de progression */}
             <Animated.View
               style={{
@@ -90,7 +96,7 @@ const SignupQuizz = () => {
         </View>
 
         <View className="h-full flex justify-center items-center">
-          <Text className="text-white text-xl">{currentStep} / 14</Text>
+          <Text className="text-white text-xl font-Urbanist-Medium">{currentStep} / 14</Text>
         </View>
       </View>
 
@@ -101,13 +107,13 @@ const SignupQuizz = () => {
           <TouchableOpacity
             className="bg-secondary-medium w-48 h-1/2 flex justify-center items-center rounded-full"
           >
-            <Text className="text-white font-medium text-lg text-center">Passer</Text>
+            <Text className="text-white font-medium text-lg text-center font-Urbanist-Black">Skip</Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-primary w-48 h-1/2 flex justify-center items-center rounded-full"
             onPress={handleNextStep}
           >
-            <Text className="text-white font-medium text-lg text-center">Suivant</Text>
+            <Text className="text-white font-medium text-lg text-center font-Urbanist-Black">Continue</Text>
           </TouchableOpacity>
         </View>
       </View>

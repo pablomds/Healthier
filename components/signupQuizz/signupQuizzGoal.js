@@ -35,7 +35,7 @@ export const SignupQuizzGoal = ({ selectedGoals, setSelectedGoals }) => {
                 className={`w-full h-20 rounded-xl bg-secondary-dark flex justify-center items-start border-2 ${isSelected ? "border-primary" : "border-secondary-medium"}`}
             >
                 <View className="w-full px-4 flex flex-row justify-between items-center">
-                    <Text className="text-white text-xl text-left flex justify-center items-center"> {goal.name} </Text>
+                    <Text className="text-white text-xl text-left flex justify-center items-center font-Urbanist-Medium"> {goal.name} </Text>
                     {isSelected && 
                         <View className="flex justify-center items-center">
                              <CheckIcon />
@@ -50,17 +50,17 @@ export const SignupQuizzGoal = ({ selectedGoals, setSelectedGoals }) => {
         <View className="flex-1 w-full h-full justify-center items-center bg-secondary">
             {/* Title */}
             <View className="flex justify-center items-center">
-                <Text className="text-4xl text-white text-center">
-                    What's Your Health <Text className="text-primary">Goal</Text> <Text>?</Text>
+                <Text className="text-3xl h-12 text-white text-center font-Urbanist-Black">
+                    What's Your Health <Text className="text-primary font-Urbanist-Black">Goal</Text> <Text>?</Text>
                 </Text>
-                <Text className="text-lg text-white text-center">
+                <Text className="text-lg text-white text-center font-Urbanist-Medium">
                     Tell us what you aim to achieve with Healthier.
                 </Text>
             </View>
 
             {/* Content */}
             <View className="w-full h-full flex flex-row justify-center items-center">
-                <View className="w-full h-full flex justify-center items-center px-4 gap-y-4">
+                <View className="w-full h-full flex justify-center items-center mb-8 px-4 gap-y-4">
                     {goals.map((goal) => handleRenderCards(goal))}
                 </View>
             </View>

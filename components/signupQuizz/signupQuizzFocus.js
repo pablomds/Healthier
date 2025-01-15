@@ -43,7 +43,7 @@ export const SignupQuizzFocus = ({ gender, selectedAreas, setSelectedAreas }) =>
                 className={`w-32 h-14 rounded-lg bg-secondary-dark flex justify-center items-center border-2 ${isSelected ? "border-primary" : "border-secondary-medium"
                     }`}
             >
-                <Text className="text-white text-xl text-center">{bodyPart.name}</Text>
+                <Text className="text-white text-xl text-center font-Urbanist-Medium">{bodyPart.name}</Text>
             </TouchableOpacity>
         );
     };
@@ -52,10 +52,10 @@ export const SignupQuizzFocus = ({ gender, selectedAreas, setSelectedAreas }) =>
         <View className="flex-1 w-full h-full justify-center items-center bg-secondary">
             {/* Title */}
             <View className="flex justify-center items-center">
-                <Text className="text-4xl text-white text-center">
-                    What's Your <Text className="text-primary">Focus Area</Text><Text>?</Text>
+                <Text className="text-3xl h-12 text-white text-center font-Urbanist-Black">
+                    What's Your <Text className="text-primary font-Urbanist-Black">Focus Area</Text><Text>?</Text>
                 </Text>
-                <Text className="text-lg text-white text-center">
+                <Text className="text-lg text-white text-center font-Urbanist-Medium">
                     Where would you like to channel your energy?
                 </Text>
             </View>

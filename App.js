@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Walkthrough" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="SignupQuizz" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Walkthrough" component={Walkthrough} />
         <Stack.Screen name="Access" component={Access} />
         <Stack.Screen name="Login" component={Login} />
