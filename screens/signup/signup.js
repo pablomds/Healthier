@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Text, View, Image, TextInput, TouchableOpacity, ScrollView, Modal, Pressable, StyleSheet  } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TextInput, TouchableOpacity, ScrollView, Modal, Pressable, StyleSheet, Alert, Platform   } from 'react-native';
 import LeftArrowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ArrowLeftWhite.svg";
 import MessageIconSVG from "../../assets/Iconly/Regular/Outline/MessageWhite.svg";
 import LockWhiteIconSVG from "../../assets/Iconly/Regular/Outline/LockWhite.svg";
 import HideWhiteIconSVG from "../../assets/Iconly/Regular/Outline/HideWhite.svg";
-import { CheckBox } from 'rn-inkpad';
 import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,8 +12,24 @@ import LoaderIconSVG from '../../components/global/loader/loader.js';
 import { auth } from '../../firebase/firebaseConfig.js';
 import { createUserWithEmailAndPassword, getDataFromCollection } from '../../firebase/functions.js';
 import { createUser, getUser, getUsers } from '../../controllers/usersControllers.js';
+import { SignInWithService } from '../../components/global/SignIn/SignInWithService.js';
+import { CheckBox } from '../../components/global/checkbox/CheckBox.js';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 
-const Signup = ({navigation}) => {
+const CLIENT_ID = '70429617594-9in75jr6n1vkldn0rvukgkd4uovi4lah.apps.googleusercontent.com';
+const IOS_CLIENT_ID = '70429617594-2os8mc39s6fnb09nslq7o6n87822mkh3.apps.googleusercontent.com';
+
+const DISCOVERY = {
+  authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
+  tokenEndpoint: 'https://oauth2.googleapis.com/token',
+  revocationEndpoint: 'https://oauth2.googleapis.com/revoke',
+};
+
+WebBrowser.maybeCompleteAuthSession(); // Completes the session if returning from a redirect
+
+const Signup = ({ navigation }) => {
+  const [userInfo, setUserInfo] = useState(null);
   const [showPassword, setShowPassword] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const schema = Yup.object().shape({
@@ -24,6 +39,31 @@ const Signup = ({navigation}) => {
     .oneOf([true], 'You must accept the terms and conditions')
     .required('This field is required'),
   });
+
+  const REDIRECT_URI = makeRedirectUri({ useProxy: true });
+
+  console.log("Redirect URI (with proxy):", REDIRECT_URI); // Should print https://auth.expo.io/@pablo_mds/Healthier
+
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: Platform.OS === 'ios' ? IOS_CLIENT_ID : CLIENT_ID,
+      redirectUri: Platform.OS === 'ios' ? "https://auth.expo.io/@pablo_mds/Healthier" : REDIRECT_URI,  // This should use Expo's proxy redirect URL
+      scopes: ['openid', 'email', 'profile'],
+      responseType: 'code',
+    },
+    DISCOVERY
+  );
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { code } = response.params;
+      Alert.alert('Success', `Authentication Code: ${code}`);
+      console.log('Auth Code:', code);
+    } else if (response?.type === 'error') {
+      Alert.alert('Error', `Something went wrong: ${response.error}`);
+      console.log('Error:', response.error);
+    }
+  }, [response]);
 
   const {
     control,
@@ -40,7 +80,7 @@ const Signup = ({navigation}) => {
       const userData = {
         uid: userCredential.user.uid,
         email: data.email
-      }
+      };
       await createUser(userData);
       navigation.navigate("SignupQuizz");
     } catch (error) {
@@ -48,6 +88,10 @@ const Signup = ({navigation}) => {
     } finally {
       setShowModal(true);
     }
+  };
+
+  const handleNavigateToAccess = () => {
+    navigation.navigate("Access");
   };
 
   return (
@@ -75,12 +119,14 @@ const Signup = ({navigation}) => {
         </View>
       </Modal>
       <View className="flex flex-row justify-between px-6 py-3 h-[72px]">
-        <LeftArrowWhiteIconSVG height={40} width={40} />
+        <TouchableOpacity onPress={handleNavigateToAccess}>
+          <LeftArrowWhiteIconSVG height={40} width={40} />
+        </TouchableOpacity>
       </View>
       <View className="flex flex-col px-6 py-2 gap-y-8">
         <View className="flex flex-col gap-y-2">
-          <Text className="text-white text-[32px] font-Urbanist-Black">
-            Join Asana Today 👤
+          <Text className="text-white text-[32px] font-Urbanist-Bold">
+            Join Healthier Today 👤
           </Text>
           <Text className="text-white text-[18px] font-Urbanist-Regular">
             Start your personalized wellness experience.
@@ -88,7 +134,14 @@ const Signup = ({navigation}) => {
         </View>
         <View className="gap-y-4">
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px] font-Urbanist-SemiBold">Email {errors.email && <Text className="text-red-500 text-[18px] font-Urbanist-SemiBold">*</Text>}</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">
+              Email{" "}
+              {errors.email && (
+                <Text className="text-errors text-[18px] font-Urbanist-SemiBold">
+                  *
+                </Text>
+              )}
+            </Text>
             <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[12px] px-[20px] gap-x-[12px]">
               <MessageIconSVG height="20" width="20" />
               <Controller
@@ -109,7 +162,14 @@ const Signup = ({navigation}) => {
             </View>
           </View>
           <View className="flex flex-col gap-y-2">
-            <Text className="text-white text-[18px] font-Urbanist-SemiBold">Password {errors.password && <Text className="text-red-500 text-[18px] font-Urbanist-SemiBold">*</Text>}</Text>
+            <Text className="text-white text-[18px] font-Urbanist-SemiBold">
+              Password{" "}
+              {errors.password && (
+                <Text className="text-errors text-[18px] font-Urbanist-SemiBold">
+                  *
+                </Text>
+              )}
+            </Text>
             <View className="flex flex-row justify-between bg-secondary-dark h-[65px] rounded-[10px] items-center  py-[12px] px-[20px]">
               <View className="flex flex-row gap-x-[12px] justify-center items-center">
                 <LockWhiteIconSVG height="20" width="20" />
@@ -149,15 +209,7 @@ const Signup = ({navigation}) => {
                 control={control}
                 defaultValue={false}
                 render={({ field: { value, onChange } }) => (
-                  <TouchableOpacity
-                    style={[
-                      styles.checkbox,
-                      value && styles.checked, // Apply the checked style if the value is true
-                    ]}
-                    onPress={() => onChange(!value)} // Toggle the value
-                  >
-                    {value && <Text style={styles.checkmark}>✓</Text>}
-                  </TouchableOpacity>
+                  <CheckBox onPress={() => onChange(!value)} value={value} />
                 )}
               />
               <Text className="text-white text-[18px] font-Urbanist-Medium">
@@ -165,21 +217,30 @@ const Signup = ({navigation}) => {
                 <Text className="text-primary text-[18px] font-Urbanist-Medium">
                   Terms & Conditions
                 </Text>
-                . {errors.isAgreed && <Text className="text-red-500 text-[18px] font-Urbanist-Medium">*</Text>}
+                .{" "}
+                {errors.isAgreed && (
+                  <Text className="text-errors text-[18px] font-Urbanist-Medium">
+                    *
+                  </Text>
+                )}
               </Text>
             </View>
             <View className="flex flex-row justify-center gap-x-2">
               <Text className="text-white text-[18px] font-Urbanist-Regular">
                 Already have an account ?
               </Text>
-              <Text className="text-primary text-[18px] font-Urbanist-SemiBold">Log in</Text>
+              <Text className="text-primary text-[18px] font-Urbanist-SemiBold">
+                Log in
+              </Text>
             </View>
           </View>
         </View>
         <View className="gap-y-5">
           <View className="flex flex-row justify-between items-center">
             <View className="h-1 w-44 bg-[#35383F]"></View>
-            <Text className="text-[#EEEEEE] text-[18px] font-Urbanist-Medium">or</Text>
+            <Text className="text-[#EEEEEE] text-[18px] font-Urbanist-Medium">
+              or
+            </Text>
             <View className="h-1 w-44 bg-[#35383F]"></View>
           </View>
           <ScrollView
@@ -187,34 +248,10 @@ const Signup = ({navigation}) => {
             showsVerticalScrollIndicator={false}
           >
             <View className="flex">
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoGoogle.png")} />
-                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
-                  {" "}
-                  Continue with Google{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoApple.png")} />
-                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
-                  {" "}
-                  Continue with Apple{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoFacebook.png")} />
-                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
-                  {" "}
-                  Continue with Facebook{" "}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full  bg-secondary-dark border-2 border-secondary-medium">
-                <Image source={require("../../assets/logoTwitter.png")} />
-                <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
-                  {" "}
-                  Continue with X{" "}
-                </Text>
-              </TouchableOpacity>
+              <SignInWithService service={"Google"} onPress={() => promptAsync()}/>
+              <SignInWithService service={"Apple"} />
+              <SignInWithService service={"Facebook"} />
+              <SignInWithService service={"X"} />
             </View>
           </ScrollView>
         </View>
@@ -232,26 +269,5 @@ const Signup = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 3,
-    borderColor: '#7E6DFC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checked: {
-    backgroundColor: '#7E6DFC',
-    borderColor: '#7E6DFC',
-  },
-  checkmark: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default Signup 
