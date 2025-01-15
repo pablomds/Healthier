@@ -8,6 +8,7 @@ import { SignupQuizzShape } from '../../components/signupQuizz/signupQuizzShape'
 import { SignupQuizzGoalShape } from '../../components/signupQuizz/signupQuizzGoalShape';
 import { SignupQuizzExperience } from '../../components/signupQuizz/signupQuizzExperience';
 import { SignupQuizzLifeStyle } from '../../components/signupQuizz/signupQuizzLifestyle';
+import { SignupQuizzAge } from '../../components/signupQuizz/signupQuizzAge';
 
 const SignupQuizz = () => {
 
@@ -21,6 +22,7 @@ const SignupQuizz = () => {
   const [selectedGoalShape, setSelectedGoalShape] = useState(1);
   const [selectedExp, setSelectedExp] = useState(0);
   const [sedentaryLifeStyle, setSedentaryLifeStyle] = useState(false);
+  const [selectedAge, setSelectedAge] = useState(0);
 
   const progressAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -91,6 +93,10 @@ const SignupQuizz = () => {
       case 7:
         return (
           <SignupQuizzLifeStyle sedentaryLifeStyle={sedentaryLifeStyle} setSedentaryLifeStyle={setSedentaryLifeStyle} />
+        )
+      case 8:
+        return (
+          <SignupQuizzAge selectedAge={selectedAge} setSelectedAge={setSelectedAge} />
         )
     }
   }
