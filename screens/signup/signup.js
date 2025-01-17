@@ -17,9 +17,9 @@ import { CheckBox } from '../../components/global/checkbox/CheckBox.js';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 
-const CLIENT_ID = '70429617594-9in75jr6n1vkldn0rvukgkd4uovi4lah.apps.googleusercontent.com';
-const IOS_CLIENT_ID = '70429617594-2os8mc39s6fnb09nslq7o6n87822mkh3.apps.googleusercontent.com';
-
+const clientId = '70429617594-dll22u6pia3610u6bnorjn40pfamjn59.apps.googleusercontent.com';
+const iosClientId = '70429617594-3e00c3vsg77mm714k1uj3qskt44i0fce.apps.googleusercontent.com';
+const androidId = '70429617594-79v9pdp3foob7oj133f1lpddqv8lhbpa.apps.googleusercontent.com';
 const DISCOVERY = {
   authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
   tokenEndpoint: 'https://oauth2.googleapis.com/token',
@@ -40,14 +40,13 @@ const Signup = ({ navigation }) => {
     .required('This field is required'),
   });
 
-  const REDIRECT_URI = makeRedirectUri({ useProxy: true });
-
-  console.log("Redirect URI (with proxy):", REDIRECT_URI); // Should print https://auth.expo.io/@pablo_mds/Healthier
 
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: Platform.OS === 'ios' ? IOS_CLIENT_ID : CLIENT_ID,
-      redirectUri: Platform.OS === 'ios' ? "https://auth.expo.io/@pablo_mds/Healthier" : REDIRECT_URI,  // This should use Expo's proxy redirect URL
+      clientId:  clientId,
+      androidId: androidId,
+      iosClientId: iosClientId,
+      redirectUri: "https://auth.expo.io/@pablo_mds/Healthier",  // This should use Expo's proxy redirect URL
       scopes: ['openid', 'email', 'profile'],
       responseType: 'code',
     },

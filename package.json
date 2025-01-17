@@ -40,7 +40,8 @@
     "undefined": "expo-auth-session/providers/google",
     "react-dom": "18.3.1",
     "react-native-web": "~0.19.13",
-    "@expo/metro-runtime": "~4.0.0"
+    "@expo/metro-runtime": "~4.0.0",
+    "expo-dev-client": "~5.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

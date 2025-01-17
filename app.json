@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "com.wa2goose.heatlhier",
+    "scheme": "host.exp.exponent",
     "owner": "pablo_mds",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -17,7 +17,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wa2goose.heatlhier"
+      "bundleIdentifier": "host.exp.exponent",
+      "infoPlist": {
+      "CFBundleURLTypes": [
+        {
+          "CFBundleURLSchemes": ["com.googleusercontent.apps.70429617594-2os8mc39s6fnb09nslq7o6n87822mkh3 "]
+        }
+      ]
+    }
     },
     "intentFilters": [
       {
@@ -35,13 +42,18 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.wa2goose.heatlhier"
+      "package": "host.exp.exponent",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-asset", "expo-font"],
+    "plugins": [
+      "expo-asset", 
+      "expo-font",
+      "expo-dev-client"
+    ],
     "extra": {
       "eas": {
         "projectId": "6f48f71c-d736-497e-b16d-3d287f0bf695"
