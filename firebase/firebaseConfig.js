@@ -15,6 +15,9 @@ const firebaseConfig = {
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
+// androidClientId: 70429617594-98sides19ehqegvoqhfjvfiaurmg83qc.apps.googleusercontent.com
+// clientId: 70429617594-me2htkhrctu7ufer653bnu1qotonl2kp.apps.googleusercontent.com
+
 const app = initializeApp(firebaseConfig);
 
 export const storage = getStorage(app);

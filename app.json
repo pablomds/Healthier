@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.pablo_mds.Healthier"
     },
     "web": {
       "bundler": "metro",
@@ -28,6 +29,12 @@
     "plugins": [
       "expo-asset",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6d550eb7-3a26-405c-9bde-2c43f625abc2"
+      }
+    },
+    "scheme": "Healthier"
   }
 }

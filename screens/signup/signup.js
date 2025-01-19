@@ -13,10 +13,35 @@ import LoaderIconSVG from '../../components/global/loader/loader.js';
 import { auth } from '../../firebase/firebaseConfig.js';
 import { createUserWithEmailAndPassword, getDataFromCollection } from '../../firebase/functions.js';
 import { createUser, getUser, getUsers } from '../../controllers/usersControllers.js';
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from 'expo-web-browser';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential
+} from "firebase/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const Signup = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId:"70429617594-98sides19ehqegvoqhfjvfiaurmg83qc.apps.googleusercontent.com",
+    clientId: "70429617594-me2htkhrctu7ufer653bnu1qotonl2kp.apps.googleusercontent.com",
+    
+  })
+
+  useEffect(() => {
+    if (response?.type == "succes") {
+      const { id_token} = response.params;$
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential);
+    }
+  }, [response])
+
+
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
@@ -24,6 +49,7 @@ const Signup = ({navigation}) => {
     .oneOf([true], 'You must accept the terms and conditions')
     .required('This field is required'),
   });
+
 
   const {
     control,
@@ -187,7 +213,7 @@ const Signup = ({navigation}) => {
             showsVerticalScrollIndicator={false}
           >
             <View className="flex">
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium">
+              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium" onPress={() => promptAsync()}>
                 <Image source={require("../../assets/logoGoogle.png")} />
                 <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
                   {" "}
