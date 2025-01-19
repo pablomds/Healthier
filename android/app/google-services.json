@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "70429617594",
+    "firebase_url": "https://healthier-84ebf-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "healthier-84ebf",
+    "storage_bucket": "healthier-84ebf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70429617594:android:413c21ccfb0795af7c0183",
+        "android_client_info": {
+          "package_name": "com.pablo_mds.Healthier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70429617594-krprv2lotmp5ivnd929a9q9ov4r9hk1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pablo_mds.Healthier",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "70429617594-me2htkhrctu7ufer653bnu1qotonl2kp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_rpj_MzNcuHsuCpkzuwpAI47MA7wBKys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70429617594-me2htkhrctu7ufer653bnu1qotonl2kp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,13 +10,24 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ShowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ShowWhite.svg";
 import LoaderIconSVG from '../../components/global/loader/loader.js';
-import { auth } from '../../firebase/firebaseConfig.js';
+import auth from "@react-native-firebase/auth";
 import { createUserWithEmailAndPassword, getDataFromCollection } from '../../firebase/functions.js';
 import { createUser, getUser, getUsers } from '../../controllers/usersControllers.js';
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+GoogleSignin.configure({
+  webClientId:
+    "70429617594-me2htkhrctu7ufer653bnu1qotonl2kp.apps.googleusercontent.com",
+  scopes: ["profile", "email"],
+});
 
 const Signup = ({navigation}) => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false); // true for signup, false for signin
   const [showPassword, setShowPassword] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
@@ -49,6 +60,43 @@ const Signup = ({navigation}) => {
       setShowModal(true);
     }
   };
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.signOut();
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const googleSignInResult = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(
+      googleSignInResult.data?.idToken
+    );
+
+    // Sign-in the user with the credential
+    return await auth().signInWithCredential(googleCredential);
+  }
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (user) setLoggedIn(true);
+    else setLoggedIn(false);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    console.log('sign in')
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (loggedIn) {
+    return (
+      <View>
+        <Button title="Sign Out" onPress={handleSignOut} />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 w-full py-16 bg-secondary relative">
@@ -187,7 +235,11 @@ const Signup = ({navigation}) => {
             showsVerticalScrollIndicator={false}
           >
             <View className="flex">
-              <TouchableOpacity className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium">
+              <TouchableOpacity         onPress={() =>
+          onGoogleButtonPress().then((val) =>
+            console.log("Signed in with Google!" ,val)
+          )
+        } className="w-full mb-5 h-16 px-6 flex flex-row justify-start items-center rounded-full bg-secondary-dark border-2 border-secondary-medium">
                 <Image source={require("../../assets/logoGoogle.png")} />
                 <Text className="text-xl text-white ml-12 font-Urbanist-Regular">
                   {" "}
