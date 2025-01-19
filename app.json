@@ -20,8 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package" : "com.pablo_mds.Healthier",
-      "googleServicesFile" : "./google-services.json"
+      "package": "com.pablo_mds.Healthier",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +32,11 @@
       "expo-font",
       "@react-native-firebase/app",
       "@react-native-google-signin/google-signin"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6d550eb7-3a26-405c-9bde-2c43f625abc2"
+      }
+    }
   }
 }

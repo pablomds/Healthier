@@ -90,14 +90,6 @@ const Signup = ({navigation}) => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  if (loggedIn) {
-    return (
-      <View>
-        <Button title="Sign Out" onPress={handleSignOut} />
-      </View>
-    );
-  }
-
   return (
     <View className="flex-1 w-full py-16 bg-secondary relative">
       <Modal
