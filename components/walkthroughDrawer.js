@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, TouchableOpacity, PanResponder, Animated } from 'react-native';
+import { WalkthroughDrawer as WalkthroughDrawerSVG } from './WalkthroughDrawer/WalkthroughDrawer';
+import {Dimensions} from 'react-native';
 
 export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep, navigation }) {
 
 	const [drawerTitle, setDrawerTitle] = useState("");
 	const [drawerText, setDrawerText] = useState("");
 	const animatedValue = new Animated.Value(walkthroughStep);
+
+	const windowWidth = Dimensions.get('window').width;
+	const windowHeight = Dimensions.get('window').height;
 
 	useEffect(() => {
 		Animated.timing(animatedValue, {
@@ -70,16 +75,16 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 	});
 
 	return (
-		<View className="absolute bottom-0 w-full h-96 bg-secondary rounded-t-[10px]" {...panResponder.panHandlers}>
-			<View className="">
-				<View className='h-2/3'>
-					<Text className='text-4xl text-white text-center pt-8 px-8'>
+		<View className="h-full w-full relative">
+		<View className="absolute bottom-0 w-full h-full rounded-t-[10px] z-50 " {...panResponder.panHandlers}>
+			<View className='h-full'> 
+				<View className='h-3/4 flex flex-col items-center pt-24 justify-between'>
+					<Text className='font-Urbanist-Bold text-4xl text-white text-center pt-8 px-8'>
 						{drawerTitle}
 					</Text>
-					<Text className='text-lg text-gray-600 text-center pt-3 px-8'>
+					<Text className='font-Urbanist-Regular text-lg text-primary-gray text-center pt-3 px-8'>
 						{drawerText}
 					</Text>
-					{/* Points animés */}
 					<View className="w-full py-4 flex flex-row gap-3 justify-center items-center">
 						{[0, 1, 2].map((index) => {
 							const width = animatedValue.interpolate({
@@ -107,22 +112,21 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 							);
 						})}
 					</View>
-				</View>
-						
-				<View className="w-full h-1/3 flex justify-center items-center border-t-2 border-secondary-medium">
+				</View>		
+				<View className="w-full h-1/4 flex justify-center items-center border-t-2 border-secondary-medium">
 					{walkthroughStep <= 1 ? (
 						<View className="w-full flex flex-row h-32 gap-4 items-center justify-center">
 							<TouchableOpacity
 								className="bg-secondary-medium w-48 h-1/2 flex justify-center items-center rounded-full"
 								onPress={handlePressSkip}
 							>
-								<Text className="text-white font-medium text-lg text-center">Passer</Text>
+								<Text className="font-Urbanist-Bold text-white font-medium text-lg text-center">Passer</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								className="bg-primary w-48 h-1/2 flex justify-center items-center rounded-full"
 								onPress={handlePressNext}
 							>
-								<Text className="text-white font-medium text-lg text-center">Suivant</Text>
+								<Text className="font-Urbanist-Bold text-white font-medium text-lg text-center">Suivant</Text>
 							</TouchableOpacity>
 						</View>
 					) : (
@@ -131,12 +135,14 @@ export default function WalkthroughDrawer({ walkthroughStep, setWalkthroughStep,
 								className="bg-primary w-full h-1/2 flex justify-center items-center rounded-full"
 								onPress={handleNavigate}
 							>
-								<Text className="text-white font-medium text-lg text-center">C'est parti !</Text>
+								<Text className="font-Urbanist-Bold text-white font-medium text-lg text-center">C'est parti !</Text>
 							</TouchableOpacity>
 						</View>
 					)}
 				</View>
 			</View>
+		</View>
+		<WalkthroughDrawerSVG width={windowWidth} height={windowHeight / 1.2}></WalkthroughDrawerSVG>
 		</View>
 	);
 }
