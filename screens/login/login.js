@@ -1,17 +1,20 @@
-import React, { useState, useRef } from 'react';
-import { Text, View, Image, TextInput, TouchableOpacity, ScrollView,Modal, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Text, View, TextInput, TouchableOpacity, ScrollView,Modal, Pressable } from 'react-native';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { signInWithEmailAndPassword } from '../../firebase/functions.js';
+import { SignInWithService } from '../../components/global/SignIn/SignInWithService.js';
+
+import { CheckBox } from '../../components/global/checkbox/CheckBox.js';
+
 import LeftArrowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ArrowLeftWhite.svg";
 import MessageIconSVG from "../../assets/Iconly/Regular/Outline/MessageWhite.svg";
 import LockWhiteIconSVG from "../../assets/Iconly/Regular/Outline/LockWhite.svg";
 import HideWhiteIconSVG from "../../assets/Iconly/Regular/Outline/HideWhite.svg";
-import { useForm, Controller } from 'react-hook-form';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import ShowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ShowWhite.svg";
 import LoaderIconSVG from "../../components/global/loader/loader.js";
-import { signInWithEmailAndPassword } from '../../firebase/functions.js';
-import { SignInWithService } from '../../components/global/SignIn/SignInWithService.js';
-import { CheckBox } from '../../components/global/checkbox/CheckBox.js';
 
 const Login = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(true);
@@ -42,7 +45,9 @@ const Login = ({ navigation }) => {
 
   const handleNavigateToAccess = () => {
     navigation.navigate("Access");
-  }
+  };
+
+  const handleNavigateToLogin = () => navigation.navigate("ForgotPassword");
 
   return (
     <View className="flex-1 w-full py-16 bg-secondary relative">
@@ -156,9 +161,11 @@ const Login = ({ navigation }) => {
                 Remember me
               </Text>
             </View>
-            <Text className="text-white text-[18px] font-Urbanist-SemiBold">
-              Forgot Password ?
-            </Text>
+            <TouchableOpacity onPress={handleNavigateToLogin} >
+              <Text className="text-white text-[18px] font-Urbanist-SemiBold">
+                Forgot Password ?
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View className="gap-y-5">
