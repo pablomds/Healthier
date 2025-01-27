@@ -5,7 +5,7 @@ import LeftArrowWhiteIconSVG from "../../../assets/Iconly/Regular/Outline/ArrowL
 const GoBackArrow = ({ navigationTo }) => {
   return (
     <View className="flex flex-row justify-between px-6 py-3 h-[72px]">
-      <TouchableOpacity onPress={() => navigationTo}>
+      <TouchableOpacity onPress={navigationTo}>
         <LeftArrowWhiteIconSVG height={40} width={40} />
       </TouchableOpacity>
     </View>

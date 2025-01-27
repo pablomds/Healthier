@@ -1,7 +1,5 @@
 import { COLLECTIONS } from "../firebase/collections.js"
-import { collection, query, where } from "firebase/firestore";
-import { doc, getDoc, getDocs, updateDoc , addDoc, deleteDoc } from "firebase/firestore";
-import { addDocumentToCollection, getAllDataFromCollection, getDataFromCollection } from "../firebase/functions";
+import { addDocumentToCollection, getAllDataFromCollection, getDataFromCollection, getDataFromCollectionWithWhereArray} from "../firebase/functions"
 
 export const createUser = async (userData) => {
     try {
@@ -10,3 +8,12 @@ export const createUser = async (userData) => {
         console.log("Error while adding user: ",error.message)
     }
 };
+
+export const getUserWithEmail = async (email) => {
+    try {
+        const user = await getDataFromCollectionWithWhereArray(COLLECTIONS.USERS, "email", "==" , email);
+        return user
+    } catch (error) {
+        console.log('Error while fetching user with email:', error)
+    }
+}

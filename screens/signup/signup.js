@@ -1,18 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Text, View, Image, TextInput, TouchableOpacity, ScrollView, Modal, Pressable, StyleSheet  } from 'react-native';
 import LeftArrowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ArrowLeftWhite.svg";
 import MessageIconSVG from "../../assets/Iconly/Regular/Outline/MessageWhite.svg";
 import LockWhiteIconSVG from "../../assets/Iconly/Regular/Outline/LockWhite.svg";
 import HideWhiteIconSVG from "../../assets/Iconly/Regular/Outline/HideWhite.svg";
-import { CheckBox } from 'rn-inkpad';
 import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ShowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ShowWhite.svg";
 import LoaderIconSVG from '../../components/global/loader/loader.js';
-import { auth } from '../../firebase/firebaseConfig.js';
-import { createUserWithEmailAndPassword, getDataFromCollection } from '../../firebase/functions.js';
-import { createUser, getUser, getUsers } from '../../controllers/usersControllers.js';
+import { createUserWithEmailAndPassword } from '../../firebase/authFunctions.js';
+import { createUser } from '../../controllers/usersControllers.js';
 
 const Signup = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(true);

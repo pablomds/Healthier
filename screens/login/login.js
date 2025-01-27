@@ -4,7 +4,7 @@ import { Text, View, TextInput, TouchableOpacity, ScrollView,Modal, Pressable } 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { signInWithEmailAndPassword } from '../../firebase/functions.js';
+import { signInWithEmailAndPassword } from '../../firebase/authFunctions.js';
 import { SignInWithService } from '../../components/global/SignIn/SignInWithService.js';
 
 import { CheckBox } from '../../components/global/checkbox/CheckBox.js';

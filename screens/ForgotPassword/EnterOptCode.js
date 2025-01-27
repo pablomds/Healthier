@@ -1,48 +1,94 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
+
+import { OtpInput } from "react-native-otp-entry";
 import GoBackArrow from '../../components/global/GoBackArrow/GoBackArrow';
 
 const EnterOptCode = ({ navigation }) => {
-    // const handleNavigationToForgotPassword = navigation.navigate("ForgotPassword");
+    const [secondsLeft, setSecondsLeft] = useState(60)
+
+    const handleNavigationToForgotPassword = () => navigation.navigate("ForgotPassword");
+
+    const verifyIfOptCodeIsCorrect = async (data) => {
+        try {
+            console.log('Sent',data)
+        } catch (error) {
+            console.log("an error has occured", error)
+        }
+    };
+
+    useEffect(() => {
+        // exit early when we reach 0
+        if (!secondsLeft) return;
+    
+        // save intervalId to clear the interval when the
+        // component re-renders
+        const intervalId = setInterval(() => {
+            setSecondsLeft(secondsLeft - 1);
+        }, 1000);
+    
+        // clear interval on re-render to avoid memory leaks
+        return () => clearInterval(intervalId);
+        // add timeLeft as a dependency to re-rerun the effect
+        // when we update it
+      }, [secondsLeft]);
+
+    const getFontStyle = (fontClass) => {
+        const fonts = {
+          "font-Urbanist-Bold": { fontFamily: "font-Urbanist-Bold" },
+          // Add more mappings if needed
+        };
+      
+        return fonts[fontClass] || {};
+      };
+      
   return (
     <View className="flex-1 w-full py-16 bg-secondary relative">
-        <GoBackArrow navigationTo={() => console.log("navigation")}></GoBackArrow>
-        <View className="flex flex-col py-2 px-6 gap-y-8">
+      <GoBackArrow navigationTo={handleNavigationToForgotPassword}></GoBackArrow>
+      <View className="flex flex-col py-2 px-6 gap-y-8">
         <View className="flex flex-col gap-y-2">
           <Text className="font-Urbanist-Bold text-[32px]  text-white">
-             Enter OTP Code 🔐
+            Enter OTP Code 🔐
           </Text>
           <Text className="font-Urbanist-Regular text-[18px] text-white">
-            Please check your email inbox for a message from Asana. Enter the one-time verification code below.
+            Please check your email inbox for a message from Asana. Enter the
+            one-time verification code below.
           </Text>
         </View>
         <View className="flex flex-col gap-y-2">
-          {/* <Text className="text-white text-[18px] font-Urbanist-SemiBold">
-            Your Registered Email
-            {errors.email && (
-              <Text className="text-errors text-[18px] font-Urbanist-SemiBold">
-                *
-              </Text>
-            )}
-          </Text>
-          <View className="bg-secondary-dark h-[65px] rounded-[10px] flex flex-row items-center py-[18px] px-[20px] gap-x-[12px]">
-            <MessageIconSVG height="20" width="20" />
-            <Controller
-              name="email"
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  autoCapitalize="none"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Email"
-                  placeholderTextColor="#9E9E9E"
-                  className="text-[#FFFF] text-[18px] flex-1 overflow-hidden align-middle font-Urbanist-SemiBold"
-                />
-              )}
-            />
-          </View> */}
+          <OtpInput
+            numberOfDigits={4}
+            onTextChange={(text) => console.log(text)}
+            focusColor="#7E6DFC"
+            hideStick={true}
+            focusStickBlinkingDuration={400}
+            onFilled={(text) => verifyIfOptCodeIsCorrect(text)}
+            textInputProps={{
+                accessibilityLabel: "One-Time Password",
+                style: [getFontStyle("font-custom")],
+            }}
+            theme={{
+                pinCodeContainerStyle: {
+                    backgroundColor: "#1F222A",
+                    width: 83,
+                    height: 70,
+                    borderRadius: 12,
+                    borderColor: "#1F222A",
+                },
+                pinCodeTextStyle: {
+                    color: '#FFFFFF'
+                },
+                focusedPinCodeContainerStyle: {
+                    borderColor: "#7E6DFC",
+                }
+            }}
+          />
+        </View>
+        <View className='flex flex-col gap-y-4 justify-center items-center'>
+            <Text className="font-Urbanist-Regular text-[18px] text-white">You can resend the code in <Text className="text-primary">{secondsLeft}</Text> seconds</Text>
+            <TouchableOpacity onPress={() => console.log('resend code')}>
+                <Text className="font-Urbanist-Regular text-[18px] text-primary-gray-500">Resend code</Text>
+            </TouchableOpacity>
         </View>
       </View>
     </View>

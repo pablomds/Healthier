@@ -4,31 +4,48 @@ import { useForm, Controller } from 'react-hook-form';
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { isUserSignedUp } from "../../firebase/authFunctions";
+import { getUserWithEmail } from "../../controllers/usersControllers";
+
 import LeftArrowWhiteIconSVG from "../../assets/Iconly/Regular/Outline/ArrowLeftWhite.svg";
 import MessageIconSVG from "../../assets/Iconly/Regular/Outline/MessageWhite.svg";
 
 const ForgotPassword = ({ navigation }) => {
-  const handleNavigateToAccess = () => navigation.navigate("Login");
+
+  const schema = Yup.object().shape({
+    email: Yup.string().email("*Email invalid").required("*"),
+  });
 
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onSubmit"
   });
 
-  const schema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-  });
+
 
   const onSubmit = async (data) => {
-    navigation.navigate("EnterOptCode")
+    
     try {
+      const isSignedUp = await isUserSignedUp(data.email);
+      if (isSignedUp) {
+        const user = await getUserWithEmail(data.email);
+        console.log(user)
+      } else {
+        setError("email", { type: "unrecognizedEmail", message: "*Email doesn't exist" });
+        return
+      }
+      // navigation.navigate("EnterOptCode")
     } catch (error) {
       console.log("Error :", error);
     }
   };
+
+  const handleNavigateToAccess = () => navigation.navigate("Login");
 
   return (
     <View className="flex-1 w-full py-16 bg-secondary relative">
@@ -49,10 +66,10 @@ const ForgotPassword = ({ navigation }) => {
         </View>
         <View className="flex flex-col gap-y-2">
           <Text className="text-white text-[18px] font-Urbanist-SemiBold">
-            Your Registered Email
+            Your Registered Email {" "}
             {errors.email && (
-              <Text className="text-errors text-[18px] font-Urbanist-SemiBold">
-                *
+              <Text className="text-errors text-[16px] font-Urbanist-Italic">
+                {errors.email.message}
               </Text>
             )}
           </Text>
